@@ -15,3 +15,6 @@ class Story:
     kids: Optional[list[int]] = None  # IDs of the item's comments.
     text: Optional[str] = None  # Ask's question content.
     parts: Optional[list[int]] = None  # Poll's options.
+
+    def __str__(self) -> str:
+        return f'[{self.type}] ↑{self.score} - {self.title} by {self.by}\n↪ {self.url}'
