@@ -5,8 +5,8 @@ from ochi.models.story import Story
 # TODO: handle exceptions
 
 
-async def fetch_ids(c: httpx.AsyncClient) -> list[int]:
-    resp = await c.get('topstories.json')
+async def fetch_ids(c: httpx.AsyncClient, uri: str = 'topstories.json') -> list[int]:
+    resp = await c.get(uri)
     if not resp.status_code == httpx.codes.OK:
         resp.raise_for_status()
 
@@ -28,6 +28,6 @@ async def fetch_stories(c: httpx.AsyncClient, ids: list[str]) -> list[Story]:
         tasks.append(fetch_story(c, id))
 
     stories = await asyncio.gather(*tasks)
-    stories = sorted(stories, key=lambda story: story.id)
+    stories = sorted(stories, reverse=True, key=lambda story: story.id)
 
     return stories

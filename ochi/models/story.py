@@ -17,4 +17,4 @@ class Story:
     parts: Optional[list[int]] = None  # Poll's options.
 
     def __str__(self) -> str:
-        return f'[{self.type}] ↑{self.score} - "{self.title}" by {self.by}\n↪ {self.url}'
+        return f'({self.id}) [{self.type}] ↑{self.score} - "{self.title}" by {self.by}\n↪ {self.url}'
