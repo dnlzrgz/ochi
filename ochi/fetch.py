@@ -1,11 +1,13 @@
 import asyncio
+
 import httpx
+
 from ochi.models.story import Story
 
 # TODO: handle exceptions
 
 
-async def fetch_ids(c: httpx.AsyncClient, uri: str = 'topstories.json') -> list[int]:
+async def fetch_ids(c: httpx.AsyncClient, uri: str = 'topstories.json') -> list[str]:
     resp = await c.get(uri)
     if not resp.status_code == httpx.codes.OK:
         resp.raise_for_status()
