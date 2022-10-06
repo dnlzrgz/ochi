@@ -12,7 +12,7 @@ async def main(max: int) -> None:
     console = Console()
     stories = []
 
-    with console.status("[bold white]Loading stories...", spinner='point'):
+    with console.status('[bold white]Loading stories...', spinner='point'):
         async with httpx.AsyncClient(base_url=BASE_URL) as c:
             ids = await fetch_ids(c)
             stories = await fetch_stories(c, ids[:max])
