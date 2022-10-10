@@ -4,7 +4,7 @@ HN_STORY_URL = 'https://news.ycombinator.com/item?id='
 
 HN_CATEGORIES = {
     'top': 'topstories.json',
-    'news': 'newstories.json',
+    'new': 'newstories.json',
     'best': 'beststories.json',
     'ask': 'askstories.json',
     'show': 'showstories.json',

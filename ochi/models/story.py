@@ -76,10 +76,10 @@ class Story:
             self.build_hn_url()
             url_domain = urlparse(self.url).netloc
 
-        pretty_id: str = f'[not bold dim black]{self.id}[/]'
-        pretty_score: str = f'[bold black]↑{self.score}[/]'
-        pretty_title: str = f'[not bold not italic black]"{self.title}"[/]'
-        pretty_time: str = f'[not bold black]{prettify_time(self.time)}[/]'
+        pretty_id: str = f'[not bold dim white]{self.id}[/]'
+        pretty_score: str = f'[bold white]↑{self.score}[/]'
+        pretty_title: str = f'[not bold not italic white]"{self.title}"[/]'
+        pretty_time: str = f'[not bold white]{prettify_time(self.time)}[/]'
         pretty_description: str = f'{pretty_time} by {self.by}'
 
         return f'[{pretty_id}] {pretty_score} {pretty_title} ([link={self.url}]{url_domain}[/link]) \n\t\t {pretty_description}'
