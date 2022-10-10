@@ -2,8 +2,8 @@ import asyncclick as click
 import httpx
 from rich import print as rprint
 
-from ochi import HN_BASE_URL, fetch_ids, fetch_stories
-from ochi.constants import HN_CATEGORIES
+from ochi.constants import HN_BASE_URL, HN_CATEGORIES
+from ochi.fetch import fetch_ids, fetch_stories
 
 
 @click.command()
@@ -41,8 +41,8 @@ from ochi.constants import HN_CATEGORIES
     show_default=True,
 )
 async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
-    client = httpx.AsyncClient(base_url=HN_BASE_URL)
     stories = []
+    client = httpx.AsyncClient(base_url=HN_BASE_URL)
 
     try:
         ids = await fetch_ids(client, HN_CATEGORIES[category])
@@ -64,8 +64,8 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
         rprint(
             f'A request error happened while fetching stories from {err.request.url}: {err}'
         )
+    else:
+        for story in stories:
+            rprint(story.pretty_str())
     finally:
         await client.aclose()
-
-    for story in stories:
-        rprint(story.pretty_str())
