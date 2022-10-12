@@ -1,3 +1,5 @@
+import asyncio
+
 import asyncclick as click
 import httpx
 from rich import print as rprint
@@ -46,6 +48,8 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
 
     try:
         ids = await fetch_ids(client, HN_CATEGORIES[category])
+        ids.sort(reverse=True)
+
         stories = await fetch_stories(client, ids[:max])
 
         if order_by == 'id':
@@ -69,3 +73,7 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
             rprint(story.pretty_str())
     finally:
         await client.aclose()
+
+
+def run():
+    asyncio.run(cli())

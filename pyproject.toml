@@ -5,6 +5,7 @@ description = "A simple CLI to read Hacker News in the terminal."
 authors = ["daniarlert <arlertdaniel@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+keywords = ["hacker-news", "hackernews", "cli", "click"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -29,3 +30,9 @@ profile = "black"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ochi = "ochi.cli:run"
+
+[project.scripts]
+ochi = "ochi.cli:run"
