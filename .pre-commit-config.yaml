@@ -35,3 +35,9 @@ repos:
           - id: poetry-export
             args: ["--dev", "-f", "requirements.txt", "-o", "requirements.txt"]
             verbose: true
+
+    - repo: https://github.com/commitizen-tools/commitizen
+      rev: v2.35.0
+      hooks:
+          - id: commitizen
+            stages: [commit-msg]
