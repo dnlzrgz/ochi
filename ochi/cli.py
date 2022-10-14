@@ -3,6 +3,7 @@ import asyncio
 import asyncclick as click
 import httpx
 from rich import print as rprint
+from rich.console import Console
 
 from ochi.constants import HN_BASE_URL, HN_CATEGORIES
 from ochi.fetch import fetch_ids, fetch_stories
@@ -45,8 +46,12 @@ from ochi.fetch import fetch_ids, fetch_stories
 async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
     stories = []
     client = httpx.AsyncClient(base_url=HN_BASE_URL)
+    rconsole = Console()
+    status = rconsole.status('[white]Loading stories...[/]', spinner='material')
 
     try:
+        status.start()
+
         ids = await fetch_ids(client, HN_CATEGORIES[category])
         ids.sort(reverse=True)
 
@@ -60,15 +65,21 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
             stories.sort(key=lambda s: s.time, reverse=reverse)
 
     except httpx.HTTPStatusError as err:
+        status.stop()
+
         rprint(
             f"Error response {err.response.status_code} while fetching {err.request.url}"
         )
 
     except httpx.RequestError as err:
+        status.stop()
+
         rprint(
             f'A request error happened while fetching stories from {err.request.url}: {err}'
         )
     else:
+        status.stop()
+
         for story in stories:
             rprint(story.pretty_str())
     finally:
