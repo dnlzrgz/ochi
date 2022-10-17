@@ -64,7 +64,7 @@ class Story:
     text: Optional[str] = None  # Ask's question content.
     parts: Optional[list[int]] = None  # Poll's options.
 
-    def build_hn_url(self) -> None:
+    def hn_url(self) -> None:
         if self.url is None:
             self.url = f'{HN_STORY_URL}{self.id}'
 
@@ -73,7 +73,7 @@ class Story:
         if self.url:
             url_domain = urlparse(self.url).netloc
         else:
-            self.build_hn_url()
+            self.hn_url()
             url_domain = urlparse(self.url).netloc
 
         pretty_id: str = f'[not bold dim white]{self.id}[/]'

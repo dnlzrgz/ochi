@@ -2,7 +2,6 @@ import asyncio
 
 import asyncclick as click
 import httpx
-from rich import print as rprint
 from rich.console import Console
 
 from ochi.constants import HN_BASE_URL, HN_CATEGORIES
@@ -36,18 +35,28 @@ from ochi.fetch import fetch_ids, fetch_stories
     show_default=True,
 )
 @click.option(
-    '--reverse',
+    '--reverse/--no-reverse',
     type=bool,
-    is_flag=True,
     default=False,
     help='Reverse order.',
     show_default=True,
 )
-async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
+@click.option(
+    '--color/--no-color',
+    type=bool,
+    default=True,
+    help='Enable/disable color output.',
+    show_default=True,
+)
+async def cli(
+    max: int, category: str, order_by: str, reverse: bool, color: bool
+) -> None:
     stories = []
     client = httpx.AsyncClient(base_url=HN_BASE_URL)
-    rconsole = Console()
-    status = rconsole.status('[white]Loading stories...[/]', spinner='material')
+
+    rconsole = Console(color_system=None if not color else 'auto')
+    status = rconsole.status('[green]Loading stories...[/]', spinner='material')
+    rprint = rconsole.print
 
     try:
         status.start()
@@ -67,14 +76,14 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
     except httpx.HTTPStatusError as err:
         status.stop()
 
-        rprint(
+        print(
             f"Error response {err.response.status_code} while fetching {err.request.url}"
         )
 
     except httpx.RequestError as err:
         status.stop()
 
-        rprint(
+        print(
             f'A request error happened while fetching stories from {err.request.url}: {err}'
         )
     else:
@@ -86,5 +95,5 @@ async def cli(max: int, category: str, order_by: str, reverse: bool) -> None:
         await client.aclose()
 
 
-def run():
+def run() -> None:
     asyncio.run(cli())

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ochi"
-version = "0.0.1"
+version = "0.0.2"
 description = "A simple CLI to read Hacker News in the terminal."
 authors = ["daniarlert <arlertdaniel@gmail.com>"]
 license = "MIT"
